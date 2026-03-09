@@ -59,25 +59,26 @@ fetch('https://momentjs.com/downloads/moment.min.js')
 
 
 let d = new Date(); // https://stackoverflow.com/a/33078673
-d.setDate(d.getDate() + (((3 + 7 - d.getDay()) % 7) || 7)); // get next wednesday. will return the following wednesday even if its currently a wednesday
-// d.setDate(d.getDate() + (((d.getDay()) - 3 % 7))); // uncomment this if you want to return the current date if already a wednesday 
+d.setDate(d.getDate() + (((5 + 7 - d.getDay()) % 7) || 7)); // get next friday. will return the following friday even if its currently a friday
+// d.setDate(d.getDate() + (((d.getDay()) - 5 % 7))); // uncomment this if you want to return the current date if already a friday 
 
-var startAt = moment(d).set("hour", 18).set("minute", 0).set("second", 0); //6pm
-var endAt = moment(d).set("hour", 21).set("minute", 0).set("second", 0); //9pm
+var startAt = moment(d).set("hour", 19).set("minute", 0).set("second", 0); //7pm
+var endAt = moment(d).set("hour", 23).set("minute", 0).set("second", 0); //11pm
 
-var startofPoP = moment("24-08-2022", "DD-MM-YYYY");
-var numOfPoP = Math.floor(moment.duration(startAt.diff(startofPoP)).asWeeks());
-numOfPoP -= 13; //offset
+var startofStation = moment("24-08-2022", "DD-MM-YYYY");
+var numOfStation = Math.floor(moment.duration(startAt.diff(startofStation)).asWeeks() / 2); //biweekly
+numOfStation -= 71; //offset
 
 const isEven = num => num % 2 === 0; // lol
-var sidegame = isEven(numOfPoP) ? "Ulti and P+" : "RoA 2 and Melee"
+var sidegame = isEven(numOfStation) ? "Ultimate + RoA 2" : "Ultimate + Slap City"
 
-FindReact(document.querySelectorAll('[name="name"]')[0].parentElement.parentElement.parentElement).changeValue("Pōneke Popoff #" + numOfPoP)
+FindReact(document.querySelectorAll('[name="name"]')[0].parentElement.parentElement.parentElement).changeValue("Smash Station #" + numOfStation)
 
 inputFields = document.getElementsByClassName("mui-dzz0xc"); // this sucks
 
-FindReact(inputFields[0].children[0]).changeValue("discord");
-FindReact(inputFields[1].children[0]).changeValue("https://discord.gg/4sP2weDDHm");
+// FindReact(inputFields[0].children[0]).changeValue("discord");
+// FindReact(inputFields[1].children[0]).changeValue("https://discord.gg/4sP2weDDHm");
+// campsmash não tem discord pois se trata de uma organização profissional
 
 FindReact(inputFields[2].children[0]).changeValue(startAt);
 FindReact(inputFields[3].children[0]).changeValue(endAt);
@@ -87,7 +88,7 @@ document.getElementsByClassName("copySection-sgg-6rfu")[0].children[0].children[
 waitForElm('.Select--single:not(.is-loading)').then((elm) => {
 	var prevTournaments = document.getElementsByClassName("Select--single")[0]; // this sucks
 	var options = FindReact(prevTournaments).props.options;
-	var prevEventWithSameSidegame = options.find(o => o.label.match("Popoff #" + (numOfPoP - 4)));
+	var prevEventWithSameSidegame = options.find(o => o.label.match("Station #" + (numOfStation - 4)));
 	
 	FindReact(prevTournaments).setValue(prevEventWithSameSidegame);
 	
@@ -126,7 +127,7 @@ waitForElm('.tournamentAdminProfile').then((elm) => {
 					"variables":{
 						"tournamentId":${json[0].data.tournament.id},
 						"fields":{
-							"shortSlug":"pop${numOfPoP}"
+							"shortSlug":"campinas"
 						},
 						"validationKey":"updateTournament"
 					},
@@ -140,18 +141,18 @@ waitForElm('.tournamentAdminProfile').then((elm) => {
 });
 
 console.log(`
-__**Pōneke Popoff #${numOfPoP}**__
+__**Smash Station #${numOfStation}**__
 
-Welcome back to another Pōneke Popoff! We'll be running ${sidegame}, as well as plenty of friendlies.
+Mais um Smash Station se aproxima! Dessa vez teremos torneios de ${sidegame}, além de freeplay gratuito.
 
-When: ${startAt.format("dddd, MMMM Do")} (<t:${startAt.unix()}:R>!), friendlies from 5:30PM, bracket starts 6:00PM
-Where: Respawn Esports Centre, 9 Manners Street
-Entry fee: $10, pay at venue, cash or eftpos
+QUANDO: ${startAt.format("dddd, MMMM Do")} (<t:${startAt.unix()}:R>!), estaremos no local às 19h, campeonato começa às 19h30
+ONDE: Muito Colecionáveis, Av. Brasil, 1456, Campinas - SP
+VALOR: $10, pague no local, caso seja seu primeiro torneio, a entrada é gratuita.
 
-Please bring a controller if you can, and extra setups are always nice! If you need to borrow a controller there are usually a few available.
+Traga seu console e/ou controle - teremos controles disponíveis para alugar, caso necessário!
 
-Bracket link:
-https://start.gg/pop${numOfPoP}
+Inscrições:
+https://start.gg/campinas
 `);
 
 		
